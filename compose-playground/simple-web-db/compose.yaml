@@ -1,0 +1,31 @@
+
+services:
+  web:
+    image: ubuntu:latest
+    environment:
+      TEST_A: /run/secrets/test_a
+      TEST_B: /run/secrets/test_b
+    secrets:
+      - test_a
+      - test_b
+    tty: true
+
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER_FILE: /run/secrets/postgres-user
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres-password
+    secrets:
+      - postgres-user
+      - postgres-password
+
+secrets:
+  test_a:
+    file: ../secrets/test-a-secret.txt
+  test_b:
+    file: ../secrets/test-b-secret.txt
+  postgres-user:
+    file: ../secrets/postgres-user.txt
+  postgres-password:
+    file: ../secrets/postgres-password.txt
+
